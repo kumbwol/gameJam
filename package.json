@@ -1,0 +1,30 @@
+{
+	"name": "Boilerplate",
+	"version": "1.0.0",
+	"description": "",
+	"main": "./index.html",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "webpack-cli --watch"
+	},
+	"chromium-args": "--disable-web-security",
+	"nodejs": true,
+	"window": {
+		"fullscreen": false,
+		"resizeable": true
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^13.9.2",
+		"@types/pixi.js": "^4.8.8",
+		"ts-loader": "^6.0.4",
+		"typescript": "^3.5.3",
+		"webpack": "^4.39.2",
+		"webpack-cli": "^3.3.7"
+	},
+	"dependencies": {
+		"pixi-tweener": "0.10.0",
+		"pixi.js": "^5.0.0-rc.2"
+	}
+}

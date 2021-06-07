@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es6",
+		"sourceMap": true
+	},
+	"typeRoots": [
+		"node_modules/@types"
+	],
+	"include": [
+		"./project/src/*.ts"
+	],
+	"exclude": [
+		"node_modules"
+	],
+	"filesGlob": [
+		"./src/**/*.ts",
+		"./test/**/*.ts",
+		"./typings/index.d.ts",
+		"./custom_typings/**/*.d.ts",
+		"./node_modules/@types/**/*.d.ts"
+	]
+}
