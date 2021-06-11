@@ -17,5 +17,7 @@ export class GameManager
 
 		mainContainer.addChild(wildSprite);
 		mainContainer.addChild(enemySprite);
+
+		console.log("valami");
 	}
 }
