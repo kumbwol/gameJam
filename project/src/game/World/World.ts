@@ -17,26 +17,87 @@ export class World
 	private readonly _maximumXPos: number;
 	private readonly _minimumYPos: number;
 	private readonly _maximumYPos: number;
+	private readonly _linkingChance: number; //0-100%
 
 	private _planets: Planet[];
 	private _links: Link[];
 
 	constructor(mainContainer: PIXI.Container)
 	{
+		this._links = [];
 		this._mainContainer = mainContainer;
 		this._minimumDistanceBetweenPlanets = 220;
 		this._minimumXPos = 100;
-		this._maximumXPos = 1500;
+		this._maximumXPos = 10000;
 		this._minimumYPos = 100;
-		this._maximumYPos = 800;
+		this._maximumYPos = 10000;
+		this._linkingChance = 100;
 
-		this.generatePlanets(15);
+		this.generatePlanets(420);
 		this.setPlayerPlanet();
 		this.setEnemyPlanet();
-		this.createLinks();
+
+
+		//this.generatePlanetNeighbours();
+		//this.createLinks();
+
+		for(let i=0; i<this._planets.length; i++)
+		{
+			let closestID = this.getClosestPlanet(i);
+			this.createLink(i, closestID);
+		}
+
+		console.log(this._links.length);
 	}
 
-	private createLinks()
+	private getClosestPlanet(planetID: number)
+	{
+		let minimalDistance = 999999;
+		let closestPlanetID: number;
+
+		for(let i=0; i<this._planets.length; i++)
+		{
+			if(planetID !== i && !this.arePlanetsLinkedTogether(planetID, i))
+			{
+				let distance = this.distanceBetweenPoints(this._planets[planetID].pos, this._planets[i].pos);
+				if(distance < minimalDistance)
+				{
+					minimalDistance = distance;
+					closestPlanetID = i;
+				}
+			}
+		}
+
+		return closestPlanetID;
+	}
+
+	private createLink(id1: number, id2: number)
+	{
+		if(id1 && id2)
+		{
+			let link = new Link(this._planets[id1].pos, this._planets[id2].pos, id1, id2);
+			this._links.push(link);
+			this._mainContainer.addChild(link.link);
+		}
+	}
+
+	/*private generatePlanetNeighbours()
+	{
+		for(let i=0; i<this._planets.length; i++)
+		{
+			let neighbourAmount = this._minimumNeighbours + Math.floor(Math.random() * (this._maximumNeighbours - this._minimumNeighbours));
+
+			if(this._planets[i].neighbours.length < neighbourAmount)
+			{
+				for(let j=0; j<this._planets.length; j++)
+				{
+					if()
+				}
+			}
+		}
+	}*/
+
+	/*private createLinks()
 	{
 		this._links = [];
 
@@ -74,7 +135,19 @@ export class World
 			currentPlanetID = minimalID;
 			this._mainContainer.addChild(link.link);
 		}
+	}*/
 
+	private arePlanetsLinkedTogether(id1: number, id2: number): boolean
+	{
+		for(let i=0; i<this._links.length; i++)
+		{
+			if((this._links[i].planetID1 === id1 && this._links[i].planetID2 === id2) || (this._links[i].planetID1 === id2 && this._links[i].planetID2 === id1))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private isPlanetLinked(id: number): boolean
@@ -115,7 +188,7 @@ export class World
 
 		for(let i=0; i<this._planets.length; i++)
 		{
-			let distance = this.distanceBetweenPoints(this._planets[i].pos, {x: 1600, y: 900});
+			let distance = this.distanceBetweenPoints(this._planets[i].pos, {x: this._maximumXPos, y: this._maximumYPos});
 			if(distance < distanceFromTopLeft)
 			{
 				distanceFromTopLeft = distance;

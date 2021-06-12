@@ -25,8 +25,8 @@ export class Main
 		);
 
 		this._viewPort = new Viewport({
-			worldWidth: 1600,
-			worldHeight: 900,
+			worldWidth: 800,
+			worldHeight: 450,
 
 			interaction: Main.App.renderer.plugins.interaction // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
 		});
@@ -42,7 +42,7 @@ export class Main
 			.pinch()
 			.wheel()
 			.decelerate();
-		Main.App.stage.addChild(this._viewPort);
+		this._container.addChild(this._viewPort);
 
 		this._resize = new Resize();
 
@@ -55,11 +55,11 @@ export class Main
 
 		Tweener.init(Main.App.ticker);
 
-		this._resize.resize(Main.App.screen);
+		//this._resize.resize(Main.App.screen);
 
 		new GameManager(this._viewPort);
 
-		window.onresize = () => this._resize.resize(Main.App.screen);
+		//window.onresize = () => this._resize.resize(Main.App.screen);
 
 		Main.App.ticker.add(() => {
 			//console.log(this._app.renderer.plugins.interaction.currentCursorMode);

@@ -12,8 +12,11 @@ export class Planet
 	private _enemyPlanetTexture: PIXI.Texture;
 	private _neutralPlanetTexture: PIXI.Texture;
 
+	private _neighbours: number[];
+
 	constructor(pos: IPos, type: PlanetTypes)
 	{
+		this._neighbours = [];
 		this._pos = pos;
 
 		this._playerPlanetTexture = PIXI.Texture.from("playerPlanet");
@@ -26,6 +29,16 @@ export class Planet
 
 		this.planet.x = pos.x - Math.floor(this.planet.width / 2);
 		this.planet.y = pos.y - Math.floor(this.planet.height / 2);
+	}
+
+	public addNeighbour(id: number)
+	{
+		this._neighbours.push(id);
+	}
+
+	public get neighbours(): number[]
+	{
+		return this._neighbours;
 	}
 
 	public get type(): PlanetTypes
