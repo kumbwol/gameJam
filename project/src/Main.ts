@@ -3,6 +3,7 @@ import { Resize } from "./resize";
 import { Loader } from "./Loader";
 import { Tweener } from "pixi-tweener";
 import { GameManager } from "./game/GameManager";
+import { Viewport } from "pixi-viewport";
 
 export class Main
 {
@@ -10,6 +11,7 @@ export class Main
 
 	private _container: PIXI.Container;
 	private _resize: Resize;
+	private _viewPort: any;
 
 	constructor()
 	{
@@ -17,10 +19,17 @@ export class Main
 			{
 				width: 1600,
 				height: 900,
-				backgroundColor: 0x000000,
+				backgroundColor: 0x0492c2,
 				resolution: 1
 			}
 		);
+
+		this._viewPort = new Viewport({
+			worldWidth: 1600,
+			worldHeight: 900,
+
+			interaction: Main.App.renderer.plugins.interaction // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+		});
 
 		document.body.appendChild(Main.App.view);
 		document.oncontextmenu = () => {return false;};
@@ -28,6 +37,12 @@ export class Main
 		this._container = new PIXI.Container();
 
 		Main.App.stage.addChild(this._container);
+		this._viewPort
+			.drag()
+			.pinch()
+			.wheel()
+			.decelerate();
+		Main.App.stage.addChild(this._viewPort);
 
 		this._resize = new Resize();
 
@@ -42,7 +57,7 @@ export class Main
 
 		this._resize.resize(Main.App.screen);
 
-		new GameManager(this._container);
+		new GameManager(this._viewPort);
 
 		window.onresize = () => this._resize.resize(Main.App.screen);
 

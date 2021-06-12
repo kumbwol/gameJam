@@ -4,8 +4,6 @@ import {Main} from "../../Main";
 
 export class Transform implements Base
 {
-    public _enabled: boolean = true;
-
     private _sprite: PIXI.Sprite;
     private _pivot: number[] = [.5, .5];
 
@@ -13,12 +11,10 @@ export class Transform implements Base
     private _scale: number[] = [1, 1];
     private _size: number[];
 
-    private _rotation: number = 0;
-
     constructor(source: string) {
         let texture = PIXI.Texture.from(source);
         this._sprite = new PIXI.Sprite(texture);
-        Base._mainContainer.addChild(this._sprite);
+        Base.MainContainer.addChild(this._sprite);
         this._size = [this._sprite.width, this._sprite.height];
 
         this.setPivot(this._size[0] / 2, this._size[1] / 2);

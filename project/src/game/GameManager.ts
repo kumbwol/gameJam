@@ -8,7 +8,7 @@ export class GameManager
 {
 	constructor(mainContainer: PIXI.Container)
 	{
-		Base._mainContainer = mainContainer;
+		Base.MainContainer = mainContainer;
 		new CollisionHandler();
 
 		new Player();

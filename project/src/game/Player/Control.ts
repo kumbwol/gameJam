@@ -1,4 +1,5 @@
 import {Main} from "../../Main";
+import { Base } from "../Engine/Base";
 
 export class Control
 {
@@ -25,7 +26,8 @@ export class Control
 
     private setMousePosition(e): void
     {
-        let pos = e.data.global;
+        let pos = Base.MainContainer.toLocal(e.data.global);
+
         this._mousePosition[0] = pos.x;
         this._mousePosition[1] = pos.y;
     }
