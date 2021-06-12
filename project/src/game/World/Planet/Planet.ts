@@ -24,8 +24,13 @@ export class Planet
 
 		this.type = type;
 
-		this.planet.x = pos.x + Math.floor(this.planet.width / 2);
-		this.planet.y = pos.y + Math.floor(this.planet.height / 2);
+		this.planet.x = pos.x - Math.floor(this.planet.width / 2);
+		this.planet.y = pos.y - Math.floor(this.planet.height / 2);
+	}
+
+	public get type(): PlanetTypes
+	{
+		return this._type;
 	}
 
 	public set type(type: PlanetTypes)

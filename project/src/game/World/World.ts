@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Planet } from "./Planet/Planet";
 import { PlanetTypes } from "./Planet/PlanetTypes";
+import { Link } from "./Planet/Link";
 
 export interface IPos
 {
@@ -18,6 +19,7 @@ export class World
 	private readonly _maximumYPos: number;
 
 	private _planets: Planet[];
+	private _links: Link[];
 
 	constructor(mainContainer: PIXI.Container)
 	{
@@ -26,11 +28,66 @@ export class World
 		this._minimumXPos = 100;
 		this._maximumXPos = 1500;
 		this._minimumYPos = 100;
-		this._maximumYPos = 850;
+		this._maximumYPos = 800;
 
 		this.generatePlanets(15);
 		this.setPlayerPlanet();
 		this.setEnemyPlanet();
+		this.createLinks();
+	}
+
+	private createLinks()
+	{
+		this._links = [];
+
+		let currentPlanetID: number;
+
+		for(let i=0; i<this._planets.length; i++)
+		{
+			if(this._planets[i].type === PlanetTypes.PLAYER)
+			{
+				currentPlanetID = i;
+				break;
+			}
+		}
+
+		for(let j=0; j<this._planets.length - 1; j++)
+		{
+			let minimalDistanceFromCurrentPlanet = 999999;
+			let minimalID: number;
+
+			for(let i=0; i<this._planets.length; i++)
+			{
+				if(!this.isPlanetLinked(i) && i !== currentPlanetID)
+				{
+					let distance = this.distanceBetweenPoints(this._planets[currentPlanetID].pos, this._planets[i].pos);
+					if(distance < minimalDistanceFromCurrentPlanet)
+					{
+						minimalDistanceFromCurrentPlanet = distance;
+						minimalID = i;
+					}
+				}
+			}
+
+			let link = new Link(this._planets[currentPlanetID].pos, this._planets[minimalID].pos, currentPlanetID, minimalID);
+			this._links.push(link);
+			currentPlanetID = minimalID;
+			this._mainContainer.addChild(link.link);
+		}
+
+	}
+
+	private isPlanetLinked(id: number): boolean
+	{
+		for(let i=0; i<this._links.length; i++)
+		{
+			if(this._links[i].planetID1 === id || this._links[i].planetID2 === id)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private setPlayerPlanet()
@@ -126,8 +183,8 @@ export class World
 	private generateRandomPosition(): IPos
 	{
 		return ({
-			x: Math.floor(Math.random() * (this._maximumXPos - this._minimumXPos)),
-			y: Math.floor(Math.random() * (this._maximumYPos - this._minimumYPos))
+			x: this._minimumXPos + Math.floor(Math.random() * (this._maximumXPos - this._minimumXPos)),
+			y: this._minimumYPos + Math.floor(Math.random() * (this._maximumYPos - this._minimumYPos))
 		});
 	}
 }
