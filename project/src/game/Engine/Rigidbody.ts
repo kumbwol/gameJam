@@ -10,6 +10,8 @@ export class Rigidbody implements Base
     private _drag: number = 1;
     private _mass: number = 1;
 
+    public _static: boolean = false;
+
     constructor(transform: Transform) {
         this._transform = transform;
 

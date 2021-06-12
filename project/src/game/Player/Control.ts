@@ -2,37 +2,36 @@ import {Main} from "../../Main";
 
 export class Control
 {
-    public _pointerPosition: number[] = [0, 0];
+    public _pointerPosition: number[] = [100, 100];
+
+    private _mousePosition: number[] = [0, 0];
+    private _mouseDown: boolean = false;
 
     constructor()
     {
-        window.addEventListener('mousedown', (e) => this.setPointer(e));
+        Main.App.stage.interactive = true;
+        Main.App.stage.on("pointermove", (e) => this.setMousePosition(e));
 
-        //cursor position always
-        //Main.App.stage.interactive = true;
-        //Main.App.stage.on("pointermove", (e) => this.setPointer(e));
+        window.addEventListener("mousedown", () => this._mouseDown = true);
+        window.addEventListener("mouseup", () => this._mouseDown = false);
 
+        Main.App.ticker.add(() => this.onUpdate());
     }
-    private setPointer(e): void
+
+    private onUpdate(): void
     {
-        this._pointerPosition[0] = e.x;
-        this._pointerPosition[1] = e.y;
+        if (this._mouseDown) this.setPointerPosition();
     }
 
-    /* Keyboard control
-    public _keys = {};
-
-    constructor()
+    private setMousePosition(e): void
     {
-        window.addEventListener("keydown", e => this.keysDown(e));
-        window.addEventListener("keyup",e => this.keysUp(e));
+        let pos = e.data.global;
+        this._mousePosition[0] = pos.x;
+        this._mousePosition[1] = pos.y;
     }
-    keysDown(e) { this._keys[e.keyCode] = true; }
-    keysUp(e) { this._keys[e.keyCode] = false; }*/
-
-    //Keycodes: 87, 65, 83, 68, 32 W A S D Space
-    /*if (this._input._keys["87"]) this._rigidbody.addForce(0, -this._moveForce);
-    if (this._input._keys["83"]) this._rigidbody.addForce(0, this._moveForce);
-    if (this._input._keys["65"]) this._rigidbody.addForce(-this._moveForce, 0);
-    if (this._input._keys["68"]) this._rigidbody.addForce(this._moveForce, 0);*/
+    private setPointerPosition(): void
+    {
+        this._pointerPosition[0] = this._mousePosition[0];
+        this._pointerPosition[1] = this._mousePosition[1];
+    }
 }

@@ -1,33 +1,24 @@
-import {Transform} from "../Engine/Transform";
-import {Rigidbody} from "../Engine/Rigidbody";
-import {Base} from "../Engine/Base";
 import {Main} from "../../Main";
-import {Control} from "../Player/Control";
+import {Spaceship} from "../Spaceship/Spaceship";
 
 export class Enemy
 {
-    /*private _transform: Transform;
-    private _rigidbody: Rigidbody;
-
-    private _control: Control;
+    private _spaceships: Spaceship[] = [];
 
     constructor()
     {
-        this._transform = new Transform(Base._location + "simpleSpace/Retina/meteor_detailedLarge.png");
-        this._rigidbody = new Rigidbody(this._transform);
-        this._control = new Control();
+        for (let i = 0; i < 50; i++) {
+            this._spaceships.push(new Spaceship("simpleSpace/Retina/Ship_C.png", "Enemy"));
+        }
 
-        this.onStart();
         Main.App.ticker.add(() => this.onUpdate());
-    }
-
-    private onStart(): void
-    {
-        this._rigidbody.setDrag(10);
     }
 
     private onUpdate(): void
     {
-
-    }*/
+        for (let i = 0; i < this._spaceships.length; i++)
+        {
+            this._spaceships[i].setTargetPosition(600, 600);
+        }
+    }
 }
