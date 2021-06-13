@@ -12,6 +12,7 @@ export class Loader
 			.add("player", "./project/assets/spaceships/player.png")
 			.add("enemy", "./project/assets/spaceships/enemy.png")
 			.add("spaceship", "./project/assets/spaceships/base.png")
+			.add("startBtn", "./project/assets/menu/startBtn.png")
 			.load(() => callback.setup());
 	}
 }

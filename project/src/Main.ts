@@ -4,6 +4,7 @@ import { Loader } from "./Loader";
 import { Tweener } from "pixi-tweener";
 import { GameManager } from "./game/GameManager";
 import { Viewport } from "pixi-viewport";
+import { MenuManager } from "./game/MenuManager";
 
 export class Main
 {
@@ -57,7 +58,7 @@ export class Main
 
 		//this._resize.resize(Main.App.screen);
 
-		new GameManager(this._viewPort);
+		new MenuManager(this._viewPort, this._resize, this._container);
 
 		//window.onresize = () => this._resize.resize(Main.App.screen);
 
