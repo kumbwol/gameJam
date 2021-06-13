@@ -86,7 +86,7 @@ export class Planet
 
 			case PlanetTypes.ENEMY2:
 				this._transform.setTexture(Base._location + "planets/enemy1.png");
-				this._spawner._tag = "Enemy2";
+				this._spawner._tag = "Enemy1";
 				break;
 
 			case PlanetTypes.NEUTRAL:
