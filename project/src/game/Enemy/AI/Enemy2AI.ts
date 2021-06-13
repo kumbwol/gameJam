@@ -80,7 +80,7 @@ export class Enemy2AI
 	{
 		for(let i=0; i<this._world.planets.length; i++)
 		{
-			if(this._world.planets[i].type === PlanetTypes.ENEMY2)
+			if(this._world.planets[i].type == PlanetTypes.ENEMY2)
 			{
 				this._enemyPlanetIDs.push(i);
 			}

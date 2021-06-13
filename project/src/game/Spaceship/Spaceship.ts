@@ -22,7 +22,7 @@ export class Spaceship
 
     private _drag: number = 1;
     private _mass: number = 1;
-    private _moveForce: number = 1;
+    private _moveForce: number = 2;
     private _stopDistance: number = 200;
 
     public _weapon: Weapon;
