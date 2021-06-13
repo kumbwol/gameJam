@@ -1,7 +1,7 @@
 import { Enemy } from "../Enemy";
 import * as PIXI from "pixi.js";
 import { Tweener } from "pixi-tweener";
-import { World, IPos } from "../../World/World";
+import { IPos, World } from "../../World/World";
 import { PlanetTypes } from "../../World/Planet/PlanetTypes";
 
 export class EnemyAI
@@ -11,6 +11,7 @@ export class EnemyAI
 	private _world: World;
 	private _enemyPlanetIDs: number[];
 	private _defendingID: number;
+	private _attackingID: number;
 
 	constructor(enemy: Enemy, world: World)
 	{
@@ -45,14 +46,30 @@ export class EnemyAI
 
 		if(this.isDefenseNeeded())
 		{
+			this._attackingID = this._defendingID;
 			let pos: IPos = this._world.planets[this._defendingID].pos;
 			this._enemy.targetPoint = pos;
 		}
 		else
 		{
-			this._enemyPlanetIDs = [];
-			this.getEnemyPlanets();
-			this.colonizeClosestNeutralPlanet();
+			if(this._attackingID)
+			{
+				if(this._world.planets[this._attackingID].type === PlanetTypes.ENEMY)
+				{
+					this._attackingID = undefined;
+					this._enemyPlanetIDs = [];
+					this.getEnemyPlanets();
+					this.colonizeClosestNeutralPlanet();
+				}
+			}
+			else
+			{
+				this._attackingID = undefined;
+				this._enemyPlanetIDs = [];
+				this.getEnemyPlanets();
+				this.colonizeClosestNeutralPlanet();
+			}
+
 		}
 
 		this.makeDecision();
@@ -96,13 +113,43 @@ export class EnemyAI
 			if(closestNeutralPlanetID)
 			{
 				let pos: IPos = this._world.planets[closestNeutralPlanetID].pos;
+				this._attackingID = closestNeutralPlanetID;
 				this._enemy.targetPoint = pos;
 			}
-			/*else
+			else
 			{
-				let pos: IPos = this._world.planets[Math.floor(Math.random() * this._world.planets.length)].pos;
-				this._enemy.targetPoint = pos;
-			}*/
+				for(let i=0; i<this._world.planets.length; i++)
+				{
+					if(this._world.planets[i].type === PlanetTypes.NEUTRAL)
+					{
+						this._attackingID = i;
+						break;
+					}
+				}
+
+				if(!this._attackingID)
+				{
+					for(let i=0; i<this._world.planets.length; i++)
+					{
+						if(this._world.planets[i].type === PlanetTypes.PLAYER)
+						{
+							this._attackingID = i;
+							break;
+						}
+					}
+				}
+
+				if(!this._attackingID)
+				{
+					console.log("i won probably");
+				}
+				else
+				{
+					let pos: IPos = this._world.planets[this._attackingID].pos;
+					this._enemy.targetPoint = pos;
+				}
+
+			}
 		}
 		else
 		{

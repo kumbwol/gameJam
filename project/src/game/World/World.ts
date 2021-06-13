@@ -271,7 +271,7 @@ export class World
 
 		for(let i=0; i<this._planets.length; i++)
 		{
-			if(planetID !== i && this._planets[i].type === PlanetTypes.NEUTRAL)
+			if(planetID !== i && this._planets[i].type === PlanetTypes.NEUTRAL || planetID !== i && this._planets[i].type === PlanetTypes.PLAYER)
 			{
 				let distance = this.distanceBetweenPoints(this._planets[planetID].pos, this._planets[i].pos);
 				if(distance < minimalDistance)
