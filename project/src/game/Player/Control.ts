@@ -13,7 +13,7 @@ export class Control
         Main.App.stage.interactive = true;
         Main.App.stage.on("pointermove", (e) => this.setMousePosition(e));
 
-        window.addEventListener("mousedown", () => this._mouseDown = true);
+        window.addEventListener("mousedown", (e) => {if (e.button == 0) this._mouseDown = true});
         window.addEventListener("mouseup", () => this._mouseDown = false);
 
         Main.App.ticker.add(() => this.onUpdate());
