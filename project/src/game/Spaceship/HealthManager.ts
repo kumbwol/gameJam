@@ -1,21 +1,26 @@
 export class HealthManager
 {
     public _currentHealth: number;
-    private _maxHealth: number = 100;
+    private _maxHealth: number;
 
-    constructor()
+    constructor(maxHealth: number)
     {
+        this._maxHealth = maxHealth;
         this._currentHealth = this._maxHealth;
     }
 
     public damage(amountOfDamage: number): void
     {
         this._currentHealth -= amountOfDamage;
-        if (this._currentHealth <= 0) this.die();
     }
 
-    public die(): void
+    public currentHelath(): number
     {
-        console.log("spaceship destroyed");
+        return this._currentHealth;
+    }
+
+    public reset(): void
+    {
+        this._currentHealth = this._maxHealth;
     }
 }

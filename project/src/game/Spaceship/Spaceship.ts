@@ -4,32 +4,44 @@ import {Base} from "../Engine/Base";
 import {Main} from "../../Main";
 import {Collider} from "../Engine/Collider";
 import {Weapon} from "../Weapon/Weapon";
+import {WeaponHandler} from "../Engine/Handler/WeaponHandler";
+import {HealthManager} from "./HealthManager";
+import {SpaceshipHandler} from "../Engine/Handler/SpaceshipHandler";
 
 export class Spaceship
 {
     public _transform: Transform;
     private _rigidbody: Rigidbody;
     private _collider: Collider;
-    private _targetPosition: number[] = [100, 100];
+    public _healthManager: HealthManager;
 
+    public _alive: boolean = true;
+    private _targetPosition: number[] = [100, 100];
     public _tag: string = "default";
+    public _theme: number = 0x000000;
 
     private _drag: number = 1;
     private _mass: number = 1;
     private _moveForce: number = 2;
     private _stopDistance: number = 200;
 
-    private _weapon: Weapon;
+    public _weapon: Weapon;
+    public _attackDistance: number = 300;
 
-    constructor(spriteLocation: string, tag: string)
+    constructor(spriteLocation: string, tag: string, theme: number)
     {
         this._transform = new Transform(Base._location + spriteLocation);
         this._rigidbody = new Rigidbody(this._transform);
         this._collider = new Collider(this);
+        this._healthManager = new HealthManager(100);
 
         this._tag = tag;
+        this._theme = theme;
 
-        //this._weapon = new Weapon(this._transform);
+        SpaceshipHandler._spaceships.push(this);
+        WeaponHandler._spaceships.push(this);
+
+        this._weapon = new Weapon(this);
 
         this.onStart();
         Main.App.ticker.add(() => this.onUpdate());
@@ -49,18 +61,28 @@ export class Spaceship
 
     private onUpdate(): void
     {
-        let vector: number[] = [0, 0];
+        if (this._alive) {
+            let vector: number[] = [0, 0];
 
-        vector[0] = this._targetPosition[0] - this._transform.getPosition()[0];
-        vector[1] = this._targetPosition[1] - this._transform.getPosition()[1];
-        let asd = Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])) / this._moveForce * 10;
+            vector[0] = this._targetPosition[0] - this._transform.getPosition()[0];
+            vector[1] = this._targetPosition[1] - this._transform.getPosition()[1];
+            let asd = Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])) / this._moveForce * 10;
 
-        if (asd > this._stopDistance) this._rigidbody.addForce(vector[0] / asd, vector[1] / asd);
+            if (asd > this._stopDistance) this._rigidbody.addForce(vector[0] / asd, vector[1] / asd);
+
+            if (this._healthManager.currentHelath() < 0) this._alive = false;
+        }
+        else this.died();
     }
 
     public setTargetPosition(x: number, y: number): void
     {
         this._targetPosition[0] = x;
         this._targetPosition[1] = y;
+    }
+
+    private died(): void
+    {
+        this._transform.setPosition(-5000, -5000);
     }
 }

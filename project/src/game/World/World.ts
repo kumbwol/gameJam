@@ -27,13 +27,13 @@ export class World
 		this._links = [];
 		this._mainContainer = mainContainer;
 		this._minimumDistanceBetweenPlanets = 220;
-		this._minimumXPos = 100;
-		this._maximumXPos = 10000;
-		this._minimumYPos = 100;
-		this._maximumYPos = 10000;
+		this._minimumXPos = 500;
+		this._maximumXPos = 1000;
+		this._minimumYPos = 500;
+		this._maximumYPos = 1000;
 		this._linkingChance = 100;
 
-		this.generatePlanets(420);
+		this.generatePlanets(30);
 		this.setPlayerPlanet();
 		this.setEnemyPlanet();
 
@@ -224,7 +224,6 @@ export class World
 			else
 			{
 				this._planets.push(new Planet(planetPos, PlanetTypes.NEUTRAL));
-				this._mainContainer.addChild(this._planets[this._planets.length - 1].planet);
 			}
 		}
 

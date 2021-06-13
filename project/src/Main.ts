@@ -17,9 +17,9 @@ export class Main
 	{
 		Main.App = new PIXI.Application(
 			{
-				width: 1600,
-				height: 900,
-				backgroundColor: 0x0492c2,
+				width: window.innerWidth,
+				height: window.innerHeight,
+				backgroundColor: 0x000000,
 				resolution: 1
 			}
 		);

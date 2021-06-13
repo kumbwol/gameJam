@@ -18,6 +18,7 @@ export class Transform implements Base
         this._size = [this._sprite.width, this._sprite.height];
 
         this.setPivot(this._size[0] / 2, this._size[1] / 2);
+        this._sprite.anchor.set(.5, .5);
     }
 
     //position
@@ -43,7 +44,7 @@ export class Transform implements Base
     }
 
     //pivot
-    private setPivot(x: number, y: number): void
+    public setPivot(x: number, y: number): void
     {
         this._pivot[0] = x;
         this._pivot[1] = y;
@@ -88,6 +89,18 @@ export class Transform implements Base
     public getSize(): number[]
     {
         return this._size;
+    }
+
+    public setTexture(source: string): void
+    {
+        let texture = PIXI.Texture.from(source);
+        this._sprite.texture = texture;
+    }
+
+    //help functions
+    public distanceBetweenPoints(pos1: number[], pos2: number[]): number
+    {
+        return Math.sqrt((pos1[0] - pos2[0]) * (pos1[0] - pos2[0]) + (pos1[1] - pos2[1]) * (pos1[1] - pos2[1]));
     }
 
 

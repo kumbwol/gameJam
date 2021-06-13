@@ -11,7 +11,7 @@ export class Link
 	{
 		this._link = new PIXI.Graphics;
 
-		this._link.lineStyle(5, 0x000000, 1);
+		this._link.lineStyle(5, 0xffffff, .2);
 		this._link.moveTo(pos1.x, pos1.y);
 		this._link.lineTo(pos2.x, pos2.y);
 		this._planetID1 = planetID1;

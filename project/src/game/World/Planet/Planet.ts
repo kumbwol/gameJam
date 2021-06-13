@@ -1,16 +1,23 @@
-import { IPos } from "../World";
-import * as PIXI from "pixi.js";
-import { PlanetTypes } from "./PlanetTypes";
+import {IPos} from "../World";
+import {PlanetTypes} from "./PlanetTypes";
+import {Transform} from "../../Engine/Transform";
+import {CollisionHandler} from "../../Engine/Handler/CollisionHandler";
+import {Rigidbody} from "../../Engine/Rigidbody";
+import {HealthManager} from "../../Spaceship/HealthManager";
+import {WeaponHandler} from "../../Engine/Handler/WeaponHandler";
+import {Main} from "../../../Main";
+import {Base} from "../../Engine/Base";
+import {Spawner} from "../PlanetAbilities/Spawner";
 
 export class Planet
 {
+	private _transform: Transform;
+	private _rigidbody: Rigidbody;
+	private _healthManager: HealthManager;
+	private _spawner: Spawner;
+
 	private readonly _pos;
 	private _type: PlanetTypes;
-	private _planet: PIXI.Sprite;
-
-	private _playerPlanetTexture: PIXI.Texture;
-	private _enemyPlanetTexture: PIXI.Texture;
-	private _neutralPlanetTexture: PIXI.Texture;
 
 	private _neighbours: number[];
 
@@ -19,16 +26,30 @@ export class Planet
 		this._neighbours = [];
 		this._pos = pos;
 
-		this._playerPlanetTexture = PIXI.Texture.from("playerPlanet");
-		this._enemyPlanetTexture = PIXI.Texture.from("enemyPlanet");
-		this._neutralPlanetTexture = PIXI.Texture.from("neutralPlanet");
-
-		this._planet = new PIXI.Sprite(this._neutralPlanetTexture);
+		this._transform = new Transform(Base._location + "world/planets/neutralPlanet.png");
+		this._transform.setSize(100, 100);
+		this._transform.setPosition(pos.x, pos.y);
+		this._rigidbody = new Rigidbody(this._transform);
+		this._rigidbody._static = true;
+		this._healthManager = new HealthManager(2500);
+		this._spawner = new Spawner(this._transform);
 
 		this.type = type;
 
-		this.planet.x = pos.x - Math.floor(this.planet.width / 2);
-		this.planet.y = pos.y - Math.floor(this.planet.height / 2);
+
+		CollisionHandler._collisionObjects.push(this);
+		WeaponHandler._planets.push(this);
+		Main.App.ticker.add(() => this.onUpdate());
+	}
+
+	private onUpdate(): void
+	{
+		if (this.type == PlanetTypes.PLAYER){
+			this._spawner._enabled = true;
+		}
+		if (this.type == PlanetTypes.ENEMY){
+			this._spawner._enabled = true;
+		}
 	}
 
 	public addNeighbour(id: number)
@@ -53,15 +74,18 @@ export class Planet
 		switch (type)
 		{
 			case PlanetTypes.PLAYER:
-				this.planet.texture = this._playerPlanetTexture;
+				this._transform.setTexture(Base._location + "world/planets/playerPlanet.png");
+				this._spawner._tag = "Player";
 				break;
 
 			case PlanetTypes.ENEMY:
-				this.planet.texture = this._enemyPlanetTexture;
+				this._transform.setTexture(Base._location + "world/planets/enemyPlanet.png");
+				this._spawner._tag = "Enemy";
 				break;
 
 			case PlanetTypes.NEUTRAL:
-				this.planet.texture = this._neutralPlanetTexture;
+				this._transform.setTexture(Base._location + "world/planets/neutralPlanet.png");
+				this._spawner._tag = "default";
 				break;
 		}
 	}
@@ -69,10 +93,5 @@ export class Planet
 	public get pos(): IPos
 	{
 		return this._pos;
-	}
-
-	public get planet(): PIXI.Sprite
-	{
-		return this._planet;
 	}
 }

@@ -26,7 +26,7 @@ export class CollisionHandler
                         && transform.getPosition()[1] + transform.getSize()[1] / 2 > otherTransform.getPosition()[1]
                         && transform.getPosition()[1] - transform.getSize()[1] / 2 < otherTransform.getPosition()[1])
                     {
-                        if (!collisionObject._rigidbody._static)
+                        if (!otherCollisionObject._rigidbody._static)
                         {
                             otherTransform.addPosition((otherTransform.getPosition()[0] - transform.getPosition()[0]) / this._drag,
                                 (otherTransform.getPosition()[1] - transform.getPosition()[1]) / this._drag);

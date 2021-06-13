@@ -3,12 +3,13 @@ import {Spaceship} from "../Spaceship/Spaceship";
 
 export class Enemy
 {
-    private _spaceships: Spaceship[] = [];
+    public static _spaceships: Spaceship[] = [];
+    public _targetPoint: number[] = [1000, 1000];
 
-    constructor()
+    constructor(numberOf: number)
     {
-        for (let i = 0; i < 50; i++) {
-            this._spaceships.push(new Spaceship("simpleSpace/Retina/Ship_C.png", "Enemy"));
+        for (let i = 0; i < numberOf; i++) {
+            Enemy.spawn([0, 0]);
         }
 
         Main.App.ticker.add(() => this.onUpdate());
@@ -16,9 +17,19 @@ export class Enemy
 
     private onUpdate(): void
     {
-        for (let i = 0; i < this._spaceships.length; i++)
+        this._targetPoint[0] += Math.random() * 100 - 50;
+        this._targetPoint[1] += Math.random() * 100 - 50;
+
+        for (let i = 0; i < Enemy._spaceships.length; i++)
         {
-            this._spaceships[i].setTargetPosition(600, 600);
+            Enemy._spaceships[i].setTargetPosition(this._targetPoint[0], this._targetPoint[1]);
         }
+    }
+
+    public static spawn(position: number[])
+    {
+        let spaceship = new Spaceship("simpleSpace/Retina/Ship_L.png", "Enemy", 0xff5555);
+        Enemy._spaceships.push(spaceship);
+        spaceship._transform.setPosition(position[0], position[1]);
     }
 }
