@@ -1,11 +1,10 @@
 import {Main} from "../../../Main";
 import {PlanetTypes} from "../../World/Planet/PlanetTypes";
+import {SpaceshipHandler} from "./SpaceshipHandler";
+import {PlanetHandler} from "./PlanetHandler";
 
 export class WeaponHandler
 {
-    public static _spaceships = [];
-    public static _planets = [];
-
     constructor()
     {
         Main.App.ticker.add(() => this.onUpdate());
@@ -13,9 +12,9 @@ export class WeaponHandler
 
     private onUpdate(): void
     {
-        for (let collisionObject of WeaponHandler._spaceships)
+        for (let collisionObject of SpaceshipHandler._spaceships)
         {
-            for (let otherCollisionObject of WeaponHandler._spaceships)
+            for (let otherCollisionObject of SpaceshipHandler._spaceships)
             {
                 if (collisionObject._tag != otherCollisionObject._tag) {
                     let distance = collisionObject._transform.distanceBetweenPoints(collisionObject._transform.getPosition(), otherCollisionObject._transform.getPosition());
@@ -30,21 +29,20 @@ export class WeaponHandler
         }
 
         //planets
-        for (let collisionObject of WeaponHandler._spaceships)
+        for (let collisionObject of SpaceshipHandler._spaceships)
         {
-            for (let planet of WeaponHandler._planets)
+            for (let planet of PlanetHandler._planets)
             {
                 let distance = collisionObject._transform.distanceBetweenPoints(collisionObject._transform.getPosition(), planet._transform.getPosition());
 
-                if (distance < collisionObject._attackDistance / 3 && collisionObject._weapon._readyToFire)
-                {
+                if (distance < collisionObject._attackDistance && collisionObject._weapon._readyToFire) {
                     collisionObject._weapon.fire(collisionObject._transform.getPosition(), planet._transform.getPosition());
                     planet._healthManager.damage(collisionObject._weapon._damage);
 
                     if (planet._healthManager.currentHelath() < 0) {
                         planet._healthManager.reset();
-                        if (collisionObject._tag == "Player") planet.type = PlanetTypes.PLAYER;
-                        if (collisionObject._tag == "Enemy") planet.type = PlanetTypes.ENEMY;
+                        if (collisionObject._tag == "player") planet.type = PlanetTypes.PLAYER;
+                        if (collisionObject._tag == "enemy") planet.type = PlanetTypes.ENEMY;
                     }
                 }
             }

@@ -26,11 +26,11 @@ export class World
 	{
 		this._links = [];
 		this._mainContainer = mainContainer;
-		this._minimumDistanceBetweenPlanets = 220;
+		this._minimumDistanceBetweenPlanets = 500;
 		this._minimumXPos = 0;
-		this._maximumXPos = 1000;
+		this._maximumXPos = 3000;
 		this._minimumYPos = 0;
-		this._maximumYPos = 1000;
+		this._maximumYPos = 3000;
 		this._linkingChance = 100;
 
 		this.generatePlanets(30);
@@ -226,7 +226,8 @@ export class World
 			}
 			else
 			{
-				this._planets.push(new Planet(planetPos, PlanetTypes.NEUTRAL));
+				let planet = new Planet(planetPos, PlanetTypes.NEUTRAL, i);
+				this._planets.push(planet);
 			}
 		}
 

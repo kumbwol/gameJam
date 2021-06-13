@@ -1,16 +1,16 @@
 import {Main} from "../../Main";
 import {Spaceship} from "../Spaceship/Spaceship";
 import { IPos } from "../World/World";
+import {SpaceshipHandler} from "../Engine/Handler/SpaceshipHandler";
 
 export class Enemy
 {
-    public static _spaceships: Spaceship[] = [];
     public _targetPoint: number[] = [500, 500];
 
     constructor(numberOf: number)
     {
         for (let i = 0; i < numberOf; i++) {
-            Enemy.spawn([0, 0]);
+            Enemy.spawn([0, 0], 0);
         }
 
         Main.App.ticker.add(() => this.onUpdate());
@@ -18,19 +18,14 @@ export class Enemy
 
     private onUpdate(): void
     {
-        //this._targetPoint[0] += Math.random() * 100 - 50;
-        //this._targetPoint[1] += Math.random() * 100 - 50;
-
-        for (let i = 0; i < Enemy._spaceships.length; i++)
-        {
-            Enemy._spaceships[i].setTargetPosition(this._targetPoint[0], this._targetPoint[1]);
+        for (let i = 0; i < SpaceshipHandler._spaceships.length; i++) {
+            if (SpaceshipHandler._spaceships[i]._tag == "enemy") SpaceshipHandler._spaceships[i].setTargetPosition(this._targetPoint[0], this._targetPoint[1]);
         }
     }
 
-    public static spawn(position: number[])
+    public static spawn(position: number[], id: number)
     {
-        let spaceship = new Spaceship("simpleSpace/Retina/Ship_L.png", "Enemy", 0xff5555);
-        Enemy._spaceships.push(spaceship);
+        let spaceship = new Spaceship("spaceships/enemy.png", "enemy", 0xff5555, id);
         spaceship._transform.setPosition(position[0], position[1]);
     }
 
@@ -46,10 +41,5 @@ export class Enemy
     {
         this._targetPoint[0] = pos.x;
         this._targetPoint[1] = pos.y;
-    }
-
-    public get spaceships(): Spaceship[]
-    {
-        return Enemy._spaceships;
     }
 }

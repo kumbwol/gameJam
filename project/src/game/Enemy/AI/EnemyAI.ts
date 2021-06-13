@@ -98,11 +98,11 @@ export class EnemyAI
 				let pos: IPos = this._world.planets[closestNeutralPlanetID].pos;
 				this._enemy.targetPoint = pos;
 			}
-			else
+			/*else
 			{
 				let pos: IPos = this._world.planets[Math.floor(Math.random() * this._world.planets.length)].pos;
 				this._enemy.targetPoint = pos;
-			}
+			}*/
 		}
 		else
 		{

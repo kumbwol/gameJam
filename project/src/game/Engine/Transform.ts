@@ -17,7 +17,7 @@ export class Transform implements Base
         Base.MainContainer.addChild(this._sprite);
         this._size = [this._sprite.width, this._sprite.height];
 
-        this.setPivot(this._size[0] / 2, this._size[1] / 2);
+        //this.setPivot(this._size[0] / 2, this._size[1] / 2);
         this._sprite.anchor.set(.5, .5);
     }
 

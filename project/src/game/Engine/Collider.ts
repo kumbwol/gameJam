@@ -7,12 +7,6 @@ export class Collider
     private _enabled: boolean;
     private _size: number[] = [0, 0];
 
-    constructor(object, isSpaceship: boolean)
-    {
-        if (isSpaceship) CollisionHandler._collisionObjects.push(SpaceshipHandler.getSpaceship(object));
-        CollisionHandler._collisionObjects.push(object);
-    }
-
     //size
     public getSize(): number[]
     {

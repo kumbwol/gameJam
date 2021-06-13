@@ -6,9 +6,12 @@ export class Loader
 	{
 		loader
 			.add("successAnimJSON", "./project/assets/main.json")
-			.add("playerPlanet", "./project/assets/world/planets/playerPlanet.png")
-			.add("enemyPlanet", "./project/assets/world/planets/enemyPlanet.png")
-			.add("neutralPlanet", "./project/assets/world/planets/neutralPlanet.png")
+			.add("playerPlanet", "./project/assets/planets/player.png")
+			.add("enemyPlanet", "./project/assets/planets/enemy.png")
+			.add("neutralPlanet", "./project/assets/planets/base.png")
+			.add("player", "./project/assets/spaceships/player.png")
+			.add("enemy", "./project/assets/spaceships/enemy.png")
+			.add("spaceship", "./project/assets/spaceships/base.png")
 			.load(() => callback.setup());
 	}
 }

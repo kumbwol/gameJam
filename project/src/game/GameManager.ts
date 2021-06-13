@@ -7,6 +7,7 @@ import { World } from "./World/World";
 import {WeaponHandler} from "./Engine/Handler/WeaponHandler";
 import {SpaceshipHandler} from "./Engine/Handler/SpaceshipHandler";
 import { EnemyAI } from "./Enemy/AI/EnemyAI";
+import {Neutral} from "./World/Planet/Neutral";
 
 export class GameManager
 {
@@ -22,6 +23,7 @@ export class GameManager
 
 		new Player(0);
 		let enemy = new Enemy(0);
+		//new Neutral(0);
 
 		new EnemyAI(enemy, world);
 	}

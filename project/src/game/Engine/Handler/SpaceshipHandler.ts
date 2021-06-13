@@ -12,7 +12,7 @@ export class SpaceshipHandler
             if (SpaceshipHandler._spaceships[i] == spaceship) index = i;
         }
         if (index > 0) {
-            SpaceshipHandler._spaceships[index] = null;
+            SpaceshipHandler._spaceships.splice(index, 1);
         }
     }
 

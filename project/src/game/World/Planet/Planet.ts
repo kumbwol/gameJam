@@ -1,19 +1,18 @@
 import {IPos} from "../World";
 import {PlanetTypes} from "./PlanetTypes";
 import {Transform} from "../../Engine/Transform";
-import {CollisionHandler} from "../../Engine/Handler/CollisionHandler";
 import {Rigidbody} from "../../Engine/Rigidbody";
 import {HealthManager} from "../../Spaceship/HealthManager";
-import {WeaponHandler} from "../../Engine/Handler/WeaponHandler";
 import {Main} from "../../../Main";
 import {Base} from "../../Engine/Base";
 import {Spawner} from "../PlanetAbilities/Spawner";
+import {PlanetHandler} from "../../Engine/Handler/PlanetHandler";
 
 export class Planet
 {
-	private _transform: Transform;
+	public _transform: Transform;
 	private _rigidbody: Rigidbody;
-	private _healthManager: HealthManager;
+	public _healthManager: HealthManager;
 	private _spawner: Spawner;
 
 	private readonly _pos;
@@ -21,24 +20,23 @@ export class Planet
 
 	private _neighbours: number[];
 
-	constructor(pos: IPos, type: PlanetTypes)
+	constructor(pos: IPos, type: PlanetTypes, id)
 	{
 		this._neighbours = [];
 		this._pos = pos;
 
-		this._transform = new Transform(Base._location + "world/planets/neutralPlanet.png");
+		this._transform = new Transform(Base._location + "planets/base.png");
 		this._transform.setSize(100, 100);
 		this._transform.setPosition(pos.x, pos.y);
 		this._rigidbody = new Rigidbody(this._transform);
 		this._rigidbody._static = true;
-		this._healthManager = new HealthManager(2500);
-		this._spawner = new Spawner(this._transform);
+		this._healthManager = new HealthManager(3000);
+		this._spawner = new Spawner(this._transform, id);
 
 		this.type = type;
 
 
-		CollisionHandler._collisionObjects.push(this);
-		WeaponHandler._planets.push(this);
+		PlanetHandler._planets.push(this);
 		Main.App.ticker.add(() => this.onUpdate());
 	}
 
@@ -74,17 +72,17 @@ export class Planet
 		switch (type)
 		{
 			case PlanetTypes.PLAYER:
-				this._transform.setTexture(Base._location + "world/planets/playerPlanet.png");
+				this._transform.setTexture(Base._location + "planets/player.png");
 				this._spawner._tag = "Player";
 				break;
 
 			case PlanetTypes.ENEMY:
-				this._transform.setTexture(Base._location + "world/planets/enemyPlanet.png");
+				this._transform.setTexture(Base._location + "planets/enemy.png");
 				this._spawner._tag = "Enemy";
 				break;
 
 			case PlanetTypes.NEUTRAL:
-				this._transform.setTexture(Base._location + "world/planets/neutralPlanet.png");
+				this._transform.setTexture(Base._location + "planets/base.png");
 				this._spawner._tag = "default";
 				break;
 		}
