@@ -43,7 +43,7 @@ export class WeaponHandler
                         planet._healthManager.reset();
                         if (collisionObject._tag == "player") planet.type = PlanetTypes.PLAYER;
                         if (collisionObject._tag == "enemy") planet.type = PlanetTypes.ENEMY;
-                        if (collisionObject._tag == "enemy2") planet.type = PlanetTypes.ENEMY2;
+                        if (collisionObject._tag == "enemy1") planet.type = PlanetTypes.ENEMY2;
                     }
                 }
             }
