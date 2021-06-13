@@ -35,7 +35,7 @@ export class WeaponHandler
             {
                 let distance = collisionObject._transform.distanceBetweenPoints(collisionObject._transform.getPosition(), planet._transform.getPosition());
 
-                if (distance < collisionObject._attackDistance && collisionObject._weapon._readyToFire) {
+                if (distance < collisionObject._attackDistance * 2 && collisionObject._weapon._readyToFire) {
                     collisionObject._weapon.fire(collisionObject._transform.getPosition(), planet._transform.getPosition());
                     planet._healthManager.damage(collisionObject._weapon._damage);
 
@@ -43,6 +43,7 @@ export class WeaponHandler
                         planet._healthManager.reset();
                         if (collisionObject._tag == "player") planet.type = PlanetTypes.PLAYER;
                         if (collisionObject._tag == "enemy") planet.type = PlanetTypes.ENEMY;
+                        if (collisionObject._tag == "enemy2") planet.type = PlanetTypes.ENEMY2;
                     }
                 }
             }

@@ -4,6 +4,7 @@ import {Player} from "../../Player/Player";
 import {Enemy} from "../../Enemy/Enemy";
 import {SpaceshipHandler} from "../../Engine/Handler/SpaceshipHandler";
 import {Neutral} from "../Planet/Neutral";
+import {Enemy2} from "../../Enemy/Enemy2";
 
 export class Spawner
 {
@@ -56,6 +57,7 @@ export class Spawner
     {
         if (this._tag == "Player") Player.spawn(this._transform.getPosition(), this._id);
         if (this._tag == "Enemy") Enemy.spawn(this._transform.getPosition(), this._id);
+        if (this._tag == "Enemy1") Enemy2.spawn(this._transform.getPosition(), this._id);
         /*else {
             Neutral.spawn(this._transform.getPosition(), this._id, this._transform.getPosition());
         }*/

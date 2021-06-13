@@ -26,7 +26,7 @@ export class Spaceship
     private _stopDistance: number = 200;
 
     public _weapon: Weapon;
-    public _attackDistance: number = 100;
+    public _attackDistance: number = 50;
 
     constructor(spriteLocation: string, tag: string, theme: number, id: number)
     {
