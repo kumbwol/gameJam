@@ -6,6 +6,7 @@ import {Enemy} from "./Enemy/Enemy";
 import { World } from "./World/World";
 import {WeaponHandler} from "./Engine/Handler/WeaponHandler";
 import {SpaceshipHandler} from "./Engine/Handler/SpaceshipHandler";
+import { EnemyAI } from "./Enemy/AI/EnemyAI";
 
 export class GameManager
 {
@@ -13,13 +14,15 @@ export class GameManager
 	{
 		new Base();
 		Base.MainContainer = mainContainer;
-		new World(mainContainer);
+		let world = new World(mainContainer);
 
 		new SpaceshipHandler();
 		new CollisionHandler();
 		new WeaponHandler();
 
 		new Player(0);
-		new Enemy(0);
+		let enemy = new Enemy(0);
+
+		new EnemyAI(enemy, world);
 	}
 }

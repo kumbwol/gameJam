@@ -27,9 +27,9 @@ export class World
 		this._links = [];
 		this._mainContainer = mainContainer;
 		this._minimumDistanceBetweenPlanets = 220;
-		this._minimumXPos = 500;
+		this._minimumXPos = 0;
 		this._maximumXPos = 1000;
-		this._minimumYPos = 500;
+		this._minimumYPos = 0;
 		this._maximumYPos = 1000;
 		this._linkingChance = 100;
 
@@ -46,8 +46,11 @@ export class World
 			let closestID = this.getClosestPlanet(i);
 			this.createLink(i, closestID);
 		}
+	}
 
-		console.log(this._links.length);
+	public get planets(): Planet[]
+	{
+		return this._planets;
 	}
 
 	private getClosestPlanet(planetID: number)
@@ -258,5 +261,26 @@ export class World
 			x: this._minimumXPos + Math.floor(Math.random() * (this._maximumXPos - this._minimumXPos)),
 			y: this._minimumYPos + Math.floor(Math.random() * (this._maximumYPos - this._minimumYPos))
 		});
+	}
+
+	public getClosestNeutralPlanetEnemyAI(planetID: number)
+	{
+		let minimalDistance = 9999999999999;
+		let closestPlanetID: number;
+
+		for(let i=0; i<this._planets.length; i++)
+		{
+			if(planetID !== i && this._planets[i].type === PlanetTypes.NEUTRAL)
+			{
+				let distance = this.distanceBetweenPoints(this._planets[planetID].pos, this._planets[i].pos);
+				if(distance < minimalDistance)
+				{
+					minimalDistance = distance;
+					closestPlanetID = i;
+				}
+			}
+		}
+
+		return closestPlanetID;
 	}
 }

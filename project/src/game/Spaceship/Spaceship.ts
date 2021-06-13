@@ -83,6 +83,7 @@ export class Spaceship
 
     private died(): void
     {
+        this._alive = false;
         SpaceshipHandler.removeSpaceship(this);
         this._transform.setPosition(-5000, -5000);
     }

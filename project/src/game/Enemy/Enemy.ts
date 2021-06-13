@@ -1,5 +1,6 @@
 import {Main} from "../../Main";
 import {Spaceship} from "../Spaceship/Spaceship";
+import { IPos } from "../World/World";
 
 export class Enemy
 {
@@ -31,5 +32,24 @@ export class Enemy
         let spaceship = new Spaceship("simpleSpace/Retina/Ship_L.png", "Enemy", 0xff5555);
         Enemy._spaceships.push(spaceship);
         spaceship._transform.setPosition(position[0], position[1]);
+    }
+
+    public get targetPoint(): IPos
+    {
+        return {
+            x: this._targetPoint[0],
+            y: this._targetPoint[1],
+        };
+    }
+
+    public set targetPoint(pos: IPos)
+    {
+        this._targetPoint[0] = pos.x;
+        this._targetPoint[1] = pos.y;
+    }
+
+    public get spaceships(): Spaceship[]
+    {
+        return Enemy._spaceships;
     }
 }
