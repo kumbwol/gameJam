@@ -13,14 +13,26 @@ export class MenuManager
 
 		this._menuContainer = new PIXI.Container;
 
+		let controlTexture = PIXI.Texture.from("control");
+		let control = new PIXI.Sprite(controlTexture);
+
+		let bgTexture = PIXI.Texture.from("background");
+		let bg = new PIXI.Sprite(bgTexture);
+
+		bg.y = -120;
+
 		let startBtnTexture = PIXI.Texture.from("startBtn");
 		let startBtn = new PIXI.Sprite(startBtnTexture);
 
-		startBtn.x = (1600 - startBtn.width)/2;
-		startBtn.y = (900 - startBtn.height)/2;
+		startBtn.x = (window.innerWidth - startBtn.width)/2;
+		startBtn.y = (window.innerHeight - startBtn.height)/2;
+
+		control.y = startBtn.y + startBtn.height;
 
 		startBtn.interactive = true;
 
+		this._menuContainer.addChild(bg);
+		this._menuContainer.addChild(control);
 		this._menuContainer.addChild(startBtn);
 		container.addChild(this._menuContainer);
 
