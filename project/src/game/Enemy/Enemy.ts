@@ -4,7 +4,7 @@ import {Spaceship} from "../Spaceship/Spaceship";
 export class Enemy
 {
     public static _spaceships: Spaceship[] = [];
-    public _targetPoint: number[] = [1000, 1000];
+    public _targetPoint: number[] = [500, 500];
 
     constructor(numberOf: number)
     {
@@ -17,8 +17,8 @@ export class Enemy
 
     private onUpdate(): void
     {
-        this._targetPoint[0] += Math.random() * 100 - 50;
-        this._targetPoint[1] += Math.random() * 100 - 50;
+        //this._targetPoint[0] += Math.random() * 100 - 50;
+        //this._targetPoint[1] += Math.random() * 100 - 50;
 
         for (let i = 0; i < Enemy._spaceships.length; i++)
         {

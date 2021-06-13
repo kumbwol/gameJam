@@ -16,23 +16,20 @@ export class CollisionHandler
         {
             for (let otherCollisionObject of CollisionHandler._collisionObjects)
             {
-                if (collisionObject != otherCollisionObject)
-                {
-                    const transform = collisionObject._transform;
-                    const otherTransform = otherCollisionObject._transform;
+                    if (collisionObject != otherCollisionObject && collisionObject != null && otherCollisionObject != null) {
+                        const transform = collisionObject._transform;
+                        const otherTransform = otherCollisionObject._transform;
 
-                    if (transform.getPosition()[0] + transform.getSize()[0] / 2 > otherTransform.getPosition()[0]
-                        && transform.getPosition()[0] - transform.getSize()[0] / 2 < otherTransform.getPosition()[0]
-                        && transform.getPosition()[1] + transform.getSize()[1] / 2 > otherTransform.getPosition()[1]
-                        && transform.getPosition()[1] - transform.getSize()[1] / 2 < otherTransform.getPosition()[1])
-                    {
-                        if (!otherCollisionObject._rigidbody._static)
-                        {
-                            otherTransform.addPosition((otherTransform.getPosition()[0] - transform.getPosition()[0]) / this._drag,
-                                (otherTransform.getPosition()[1] - transform.getPosition()[1]) / this._drag);
+                        if (transform.getPosition()[0] + transform.getSize()[0] / 2 > otherTransform.getPosition()[0]
+                            && transform.getPosition()[0] - transform.getSize()[0] / 2 < otherTransform.getPosition()[0]
+                            && transform.getPosition()[1] + transform.getSize()[1] / 2 > otherTransform.getPosition()[1]
+                            && transform.getPosition()[1] - transform.getSize()[1] / 2 < otherTransform.getPosition()[1]) {
+                            if (!otherCollisionObject._rigidbody._static) {
+                                otherTransform.addPosition((otherTransform.getPosition()[0] - transform.getPosition()[0]) / this._drag,
+                                    (otherTransform.getPosition()[1] - transform.getPosition()[1]) / this._drag);
+                            }
                         }
                     }
-                }
             }
         }
     }

@@ -1,12 +1,15 @@
 import {CollisionHandler} from "./Handler/CollisionHandler";
+import {Spaceship} from "../Spaceship/Spaceship";
+import {SpaceshipHandler} from "./Handler/SpaceshipHandler";
 
 export class Collider
 {
     private _enabled: boolean;
     private _size: number[] = [0, 0];
 
-    constructor(object)
+    constructor(object, isSpaceship: boolean)
     {
+        if (isSpaceship) CollisionHandler._collisionObjects.push(SpaceshipHandler.getSpaceship(object));
         CollisionHandler._collisionObjects.push(object);
     }
 

@@ -32,14 +32,14 @@ export class Spaceship
     {
         this._transform = new Transform(Base._location + spriteLocation);
         this._rigidbody = new Rigidbody(this._transform);
-        this._collider = new Collider(this);
+        this._collider = new Collider(this, true);
         this._healthManager = new HealthManager(100);
 
         this._tag = tag;
         this._theme = theme;
 
         SpaceshipHandler._spaceships.push(this);
-        WeaponHandler._spaceships.push(this);
+        WeaponHandler._spaceships.push(SpaceshipHandler.getSpaceship(this));
 
         this._weapon = new Weapon(this);
 
@@ -83,6 +83,7 @@ export class Spaceship
 
     private died(): void
     {
+        SpaceshipHandler.removeSpaceship(this);
         this._transform.setPosition(-5000, -5000);
     }
 }
