@@ -48,6 +48,9 @@ export class Planet
 		if (this.type == PlanetTypes.ENEMY){
 			this._spawner._enabled = true;
 		}
+		if (this.type == PlanetTypes.ENEMY2){
+			this._spawner._enabled = true;
+		}
 	}
 
 	public addNeighbour(id: number)

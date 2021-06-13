@@ -36,6 +36,7 @@ export class World
 		this.generatePlanets(30);
 		this.setPlayerPlanet();
 		this.setEnemyPlanet();
+		this.setEnemyPlanet2();
 
 
 		//this.generatePlanetNeighbours();
@@ -173,7 +174,7 @@ export class World
 
 		for(let i=0; i<this._planets.length; i++)
 		{
-			let distance = this.distanceBetweenPoints(this._planets[i].pos, {x: 0, y: 0});
+			let distance = this.distanceBetweenPoints(this._planets[i].pos, {x: this._minimumXPos, y: this._minimumYPos});
 			if(distance < distanceFromTopLeft)
 			{
 				distanceFromTopLeft = distance;
@@ -200,6 +201,24 @@ export class World
 		}
 
 		this._planets[enemyPlanetID].type = PlanetTypes.ENEMY;
+	}
+
+	private setEnemyPlanet2()
+	{
+		let distanceFromTopLeft = 999999;
+		let enemyPlanetID: number;
+
+		for(let i=0; i<this._planets.length; i++)
+		{
+			let distance = this.distanceBetweenPoints(this._planets[i].pos, {x: this._minimumXPos, y: this._maximumYPos});
+			if(distance < distanceFromTopLeft)
+			{
+				distanceFromTopLeft = distance;
+				enemyPlanetID = i;
+			}
+		}
+
+		this._planets[enemyPlanetID].type = PlanetTypes.ENEMY2;
 	}
 
 	private generatePlanets(amount: number)
